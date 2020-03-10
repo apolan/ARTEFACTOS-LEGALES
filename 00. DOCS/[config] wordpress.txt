@@ -1,0 +1,16 @@
+site . wp_legal
+
+ - - - - - - - - - - - - - -  - - - - - - -  - - - - - - -  - - - - - - -  - - - - - - -  - - - - - - - INI
+mysql -u root -p
+admin
+
+CREATE DATABASE wp_legal;
+CREATE USER adm_legal@localhost;
+SET PASSWORD FOR adm_legal@localhost= PASSWORD("pass_adm_legal");
+GRANT ALL PRIVILEGES ON wp_legal.* TO adm_legal@localhost IDENTIFIED BY 'pass_adm_legal';
+
+
+---- wordpress login
+apolan
+	afpolani@gmail.com
+	DyoO@faNHRTOO64(cn
