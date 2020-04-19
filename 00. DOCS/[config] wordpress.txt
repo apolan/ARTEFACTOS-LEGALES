@@ -14,3 +14,14 @@ GRANT ALL PRIVILEGES ON wp_legal.* TO adm_legal@localhost IDENTIFIED BY 'pass_ad
 apolan
 	afpolani@gmail.com
 	DyoO@faNHRTOO64(cn
+	
+	X
+	x
+	
+
+
+
+macro tendencias
+
+
+ROBOT DEXTERITY
