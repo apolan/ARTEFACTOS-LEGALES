@@ -25,3 +25,10 @@ macro tendencias
 
 
 ROBOT DEXTERITY
+
+
+
+CREATE DATABASE wp_observatorio ;
+CREATE USER adm_observatorio@localhost;
+SET PASSWORD FOR adm_observatorio@localhost= PASSWORD("pass_adm_observatorio");
+GRANT ALL PRIVILEGES ON wpv.* TO adm_observatorio@localhost IDENTIFIED BY 'pass_adm_observatorio';

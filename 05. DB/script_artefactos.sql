@@ -1,0 +1,28 @@
+-- - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - -
+--  wp_observatorio.artefacto;
+SELECT * FROM wp_observatorio.artefacto;
+-- Inserts
+INSERT INTO `wp_observatorio`.`artefacto` (`id`,`nombre`) VALUES
+(1,"Circular externa 018 del 2016"),(2,"LEY 1328 DE 2009"),(3,"Circular externa 029 del 2014"),(4,"Circular externa 022 del 2020"),(5,"Decreto 2555 de 2010"),(6,"Circular externa 007 del 2020"),(7,"Circular externa 014 del 2020"),(8,"ABC sobre Programa de Acompañamiento a Deudores – PAD ");
+
+
+-- - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - -
+-- artefacto_metadata;
+SELECT * FROM wp_observatorio.artefacto_metadata;
+-- Inserts
+INSERT INTO `wp_observatorio`.`artefacto_metadata` 
+(`fk_artefacto`, `dominio`, `tipo`, `value_a`, `value_b`, `value_c`) VALUES
+(1,"artefacto","nombre","Circular externa 018 del 2016","",""),(1,"artefacto","fecha creación","2016-05-16","",""),(1,"artefacto","agente","Superitendencia Financiera de Colombia","",""),(1,"artefacto","archivo_extension","pdf","",""),(1,"artefacto","territorio","financiero","",""),(1,"artefacto","size","","",""),(1,"artefacto","archivo","ce_018_20","",""),(1,"artefacto","naturaleza","circular","",""),(1,"artefacto","codificacion","Medio","",""),(1,"analitica","tiempo_lectura","10","",""),(1,"descripcion","N3","xxxxxx","",""),(2,"artefacto","nombre","Ley 1328 de 2009","",""),(2,"artefacto","fecha creación","2009-05-16","",""),(2,"artefacto","agente","Congreso de la Republica","",""),(2,"artefacto","archivo_extension","pdf","",""),(2,"artefacto","territorio","financiero","",""),(2,"artefacto","size","","",""),(2,"artefacto","archivo","Ley_1328_2009","",""),(2,"artefacto","naturaleza","Ley","",""),(2,"artefacto","codificacion","Alta","",""),(2,"analitica","tiempo_lectura","","",""),(2,"descripcion","N3","xxxxxx","",""),(3,"artefacto","nombre","Circular externa 029 del 2014","",""),(3,"artefacto","fecha creación","2009-03-10","",""),(3,"artefacto","agente","Superitendencia Financiera de Colombia","",""),(3,"artefacto","archivo_extension","pdf","",""),(3,"artefacto","territorio","financiero","",""),(3,"artefacto","size","","",""),(3,"artefacto","archivo","ce_029_2014","",""),(3,"artefacto","naturaleza","Ley","",""),(3,"artefacto","codificacion","Alta","",""),(3,"analitica","tiempo_lectura","","",""),(3,"descripcion","N3","xxxxxx","",""),(4,"artefacto","nombre","Circular externa 022 del 2020","",""),(4,"artefacto","fecha creación","2020-05-30","",""),(4,"artefacto","agente","Superitendencia Financiera de Colombia","",""),(4,"artefacto","archivo_extension","pdf","",""),(4,"artefacto","territorio","financiero","",""),(4,"artefacto","size","","",""),(4,"artefacto","archivo","ce_022_2020","",""),(4,"artefacto","naturaleza","Ley","",""),(4,"artefacto","codificacion","Media","",""),(4,"analitica","tiempo_lectura","","",""),(4,"descripcion","N3","xxxxxx","",""),(5,"artefacto","nombre","Decreto 2555 de 2010","",""),(5,"artefacto","fecha creación","2010-05-30","",""),(5,"artefacto","agente","Superitendencia Financiera de Colombia","",""),(5,"artefacto","archivo_extension","pdf","",""),(5,"artefacto","territorio","financiero","",""),(5,"artefacto","size","","",""),(5,"artefacto","archivo","dc_2555_2010","",""),(5,"artefacto","naturaleza","Decreto",""," "),(5,"artefacto","codificacion","Alta","",""),(5,"analitica","tiempo_lectura","","",""),(5,"descripcion","N3","xxxxxx","",""),(6,"artefacto","nombre","Circular externa 007 del 2020","",""),(6,"artefacto","fecha creación","2010-07-01","",""),(6,"artefacto","agente","Superitendencia Financiera de Colombia","",""),(6,"artefacto","archivo_extension","pdf","",""),(6,"artefacto","territorio","financiero","",""),(6,"artefacto","size","","",""),(6,"artefacto","archivo","dc_2555_2010","",""),(6,"artefacto","naturaleza","Ley","",""),(6,"artefacto","codificacion","Alta","",""),(6,"analitica","tiempo_lectura","","",""),(6,"descripcion","N3","xxxxxx","",""),(8,"artefacto","nombre","ABC sobre Programa de  Acompañamiento a Deudores – PAD ","",""),(8,"artefacto","fecha creación","2020-06-01","",""),(8,"artefacto","agente","Superitendencia Financiera de Colombia","",""),(8,"artefacto","archivo_extension","pdf","",""),(8,"artefacto","territorio","financiero","",""),(8,"artefacto","size","","",""),(8,"artefacto","archivo","doc_abcAcompanamiento_20200701","",""),(8,"artefacto","naturaleza","Documento explicativo","",""),(8,"artefacto","codificacion","Alta","",""),(8,"analitica","tiempo_lectura","","",""),(8,"descripcion","N3","xxxxxx","",""),(7,"artefacto","nombre","Circular externa 014 del 2020","",""),(7,"artefacto","fecha creación","2020-14-04","",""),(7,"artefacto","agente","Superitendencia Financiera de Colombia","",""),(7,"artefacto","archivo_extension","pdf","",""),(7,"artefacto","territorio","financiero","",""),(7,"artefacto","size","","",""),(7,"artefacto","archivo","ce_014_2020","",""),(7,"artefacto","naturaleza","Ley","",""),(7,"artefacto","codificacion","Alta","",""),(7,"analitica","tiempo_lectura","","",""),(7,"descripcion","N3","xxxxxx","","");
+
+delete FROM wp_observatorio.artefacto_metadata;
+
+-- Alter tables
+
+ALTER TABLE `wp_observatorio`.`artefacto_metadata` 
+ADD FOREIGN KEY (fk_artefacto) REFERENCES artefacto(id);
+
+ALTER TABLE `wp_observatorio`.`seccion_metadata` 
+ADD FOREIGN KEY (fk_seccion) REFERENCES seccion(id);
+
+ALTER TABLE `wp_observatorio`.`seccion` 
+ADD FOREIGN KEY (fk_artefacto) REFERENCES artefacto(id);
