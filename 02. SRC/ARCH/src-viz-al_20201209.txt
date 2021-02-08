@@ -1,0 +1,687 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+var indexPregunta = 0;
+// 0 Nivel - Abogado
+var paramCiudadano = 0;
+// 0 Cobro
+var paramTema = 0;
+// 0 No quiero denunciar
+var paramAccion = 0;
+var uiPanels = [];
+init();
+function init() {
+    loadFont("GothamBlack", "gtbck");
+    loadFont("GothamBold", "gtbold");
+    loadFont("GothamBook", "gtbook");
+    loadFont("GothamLight", "gtlight");
+    loadFont("GothamBook-Italic", "gtbooki");
+    loadFont("CenturyGothicRegular", "cgregular");
+    loadFont("CenturyGothicBold", "cgbold");
+    loadFont("AdelleSansBold", "adllbold");
+    loadFont("AdelleSansLight", "adllthin");
+    loadFont("AdelleSansLight", "adlllight");
+    loadFont("AdelleSansBook", "adllbook");
+    loadFont("Chantal-Bold", "chantal-bold");
+    loadFont("Chantal-BoldItalic.otf", "chantal-bold-italic");
+    loadFont("Chantal-Light-Italic", "chantal-light-italic");
+    loadFont("Chantal-Light", "chantal-light");
+    loadFont("Chantal-Regular", "chantal-regular");
+}
+
+function loadFont(name, family) {
+    var newStyle = document.createElement('style');
+    newStyle.appendChild(document.createTextNode("\
+    @font-face {\
+        font-family: " + family + ";\
+        src: url(" + urlcanonical + '/fonts/' + name + '.otf)' + ";\
+    }\
+    "));
+    document.head.appendChild(newStyle);
+}
+
+
+
+/*
+ * MANAGER PREGUTNAS
+ */
+function mngPregunta(id, nextId, value) {
+    if (id == 1) {
+        $("#p-" + id).hide();
+        createPregunta(nextId);
+        if (value == "si") {
+            addConfig("abogado", "Soy abogado");
+            paramCiudadano = 1;
+        } else if (value == "no") {
+            addConfig("abogado", "No soy abogado");
+            paramCiudadano = 0;
+        }
+    } else if (id == 2) {
+        $("#p-" + id).hide();
+        createPregunta(nextId);
+        if (value == "info-enganosa") {
+            addConfig("info-enganosa", "Información engañosa");
+        } else if (value == "info-cobro") {
+            addConfig("info-cobro", "Cobro injustificado");
+        }
+    } else if (id == 3) {
+        $("#p-" + id).hide();
+        createPregunta(nextId);
+        if (value == "info-tc") {
+            addConfig("producto", "Mi tarjeta de crédito");
+        } else if (value == "info-li") {
+            addConfig("producto", "Mi crédito de libre inversión");
+        }
+    } else if (id == 4) {
+        $("#p-" + id).hide();
+        createPregunta(nextId);
+        if (value == "si") {
+            addConfig("denuncia", "No quiero denunciar");
+        } else if (value == "no") {
+            addConfig("denuncia", "Si quiero denunciar");
+        }
+
+
+    } else if (id == 5) {
+        $("#p-" + id).hide();
+        $('#dash').show();
+        $('.section-pregunta').hide();
+        $('.section-pregunta').hide();
+        if (value == "explorar") {
+            addConfig("explorar", "Explorar");
+        }
+    }
+}
+function addConfig(option, value) {
+    $("#settingsList").append("<li class='txt-normal'>" + value + "</li>");
+    // console.log(value);
+}
+
+/**
+ * 
+ * @param {type} id
+ * @returns {undefined}
+ */
+function createPregunta(id) {
+
+    var pregunta = getPreguntaById(id);
+    var div = $('<div id="p-' + pregunta["id"] + '">').addClass(pregunta["styleA"]);
+    var preguntaTxt = "";
+    //console.log(pregunta);
+    for (var opcion in pregunta["opciones"]) {
+        preguntaTxt += '<li class="list-group-item txt-subtitulo-4 ' + pregunta["opciones"][opcion]["style"] + '" onclick="' + pregunta["opciones"][opcion]["function"] + '">' + pregunta["opciones"][opcion]["label"] + '</li>';
+    }
+
+    div.append('<div class="col-md-12"><p class="txt-subtitulo-1 text-center">'
+            + pregunta["titulo"] + '</p> <p class="txt-normal-1 text-center">' + pregunta["descripcion"] +
+            '</p><div class="row justify-content-center section-menu"><ul class="list-group list-group-horizontal ">' + preguntaTxt + ' </ul></div></div></div>');
+    $("#preguntas").append(div);
+}
+
+
+function getPreguntaById(id) {
+
+    for (var pregunta in preguntas) {
+        if (preguntas[pregunta]["id"] == id) {
+//console.log(preguntas[pregunta]);
+            return preguntas[pregunta];
+        }
+    }
+}
+
+
+function initUI() {
+    var modalTmp = "";
+    for (var panel in panelUi) {
+        var panelTmp = panelUi[panel];
+        var divParent = "<div id='" + panelTmp["id"] + "' class='" + panelTmp["styleA"] + "'>" +
+                "<div class='mn-config-title'><p class='txt-subtitulo-1-smll'>" + panelTmp["titulo"] +
+                " <span class='" + panelTmp["help"]["style"] + "' title='" + panelTmp["help"]["titulo"] + "' data-toggle='modal' data-target='#" + panelTmp["help"]["id"] + "' onClick='" + panelTmp["help"]["function"] + "'></span>" +
+                "</p></div>" +
+                "[CHILDS]" +
+                "</div>";
+        // Crete modal
+
+        modalTmp = "<div id='" + panelTmp["help"]["id"] + "' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>" +
+                "<div class='modal-dialog modal-dialog modal-dialog-centered'><div class='modal-content'>" +
+                "<div class='modal-header'>" +
+                "<h4 class='txt-subtitulo-3' modal-title' id='myModalLabel'> " + panelTmp["help"]["titulo"] + "</h4></div>" +
+                "<div class='modal-body'> " +
+                panelTmp["help"]["descripcion"] +
+                "</div>" +
+                "<div class='modal-footer'>" +
+                "<button type='button' class='btn btn-default' data-dismiss='modal'>Entiendo</button>" +
+                "</div></div></div></div>";
+        var divChild = "";
+        for (var child in panelTmp["childs"]) {
+            var childTmp = panelTmp["childs"][child];
+            //onsole.log(childTmp["tipo"]);
+            //console.log(childTmp["tipo"]);
+            if (childTmp["tipo"] == "tarjeta") {
+                divChild += "<div id='" + childTmp["id"] + "' class='" + childTmp["style"] + " onClick='" + childTmp["function"] + "'>" +
+                        childTmp["label"] +
+                        "</div>";
+            } else if (childTmp["tipo"] == "lista") {
+                divChild += "<ul id='" + childTmp["id"] + "' class='" + childTmp["style"] + "'></ul>";
+            } else if (childTmp["tipo"] == "img") {
+                divChild += "<img id='" + childTmp["id"] + "' class='" + childTmp["style"] + "' src='" + urlcanonical + childTmp["url"] + "'></img>";
+            } else if (childTmp["tipo"] == "contenedor") {
+//console.log(childTmp["tipo"]);
+                divChild += "<div id='" + childTmp["id"] + "' class='" + childTmp["style"] + "'></div>";
+            }
+
+        }
+
+// Reemplazo  de campos
+//divChild = divChild.replace("[SUBCHILDS]", divSubChild);
+
+        divParent = divParent.replace("[CHILDS]", divChild);
+        uiPanels.push(panelTmp["id"]);
+        $("#UI").append(divParent);
+        $("#UI").append(modalTmp);
+        if (panelTmp["visible"] == "off") {
+            $("#" + panelTmp["id"]).hide();
+        }
+    }
+}
+
+
+
+function actionPanelOn() {
+    for (var panelTmp in uiPanels) {
+        /*if (uiPanels[panelTmp]["id"] == id)*/
+
+        $("#" + uiPanels[panelTmp]).show();
+    }
+}
+
+
+
+
+
+
+
+/*
+ *  MANAGER GRAPGH
+ */
+
+var state = "none";
+function activateGrap(action) {
+    if (action === "none") {
+        state = "none";
+        location.reload();
+    } else if (action === "cazador" && state !== "cazador") {
+
+        state = "cazador";
+        var src = urlcanonical + "/js/" + 'd3-symbol-extra.min.js';
+        var srcD3 = 'http://d3js.org/d3.v5.min.js';
+        $('<script>').attr('src', srcD3).appendTo('head');
+        $('<script>').attr('src', src).appendTo('#panel-cazador');
+        $("#panel-cazador").append("<svg width='1000' height='900'></svg>");
+        setTimeout(
+                function ()
+                {
+                    //alert(d3.version);
+                    remap();
+                    run();
+                    actionPanelOn();
+                    //initUI();
+                    /*
+                     $("#menu-filter").show();
+                     
+                     *
+                     **/
+                    //run2();
+                }, 3000);
+        //run();
+
+    }
+}
+
+
+
+
+function remap() {
+
+// TIPO DE DATOS
+    var array = grapN["nodes"];
+    for (var i in grapN["nodes"]) {
+        grapN["nodes"][i]["SERIAL"] = parseInt(grapN["nodes"][i]["SERIAL"]);
+        grapN["nodes"][i]['SIZE'] = parseInt(grapN["nodes"][i]['SIZE'] * 100);
+        if (grapN["nodes"][i]['SIZE'] <= 0) {
+            grapN["nodes"][i]['SIZE'] = 100;
+        }
+
+
+// CALCULAR FORMA
+// COLOR
+
+        if (grapN["nodes"][i]['CODIFICACION'] == 'Bajo') {
+            grapN["nodes"][i]['SHAPE'] = 'N3';
+        }
+
+        if (grapN["nodes"][i]['CODIFICACION'] != 'Bajo' && paramCiudadano == 0) {
+            grapN["nodes"][i]['SHAPE'] = 'N4';
+        }
+
+        if (grapN["nodes"][i]['CODIFICACION'] != 'Medio' && paramCiudadano == 0) {
+            grapN["nodes"][i]['SHAPE'] = 'N6';
+        } else if (grapN["nodes"][i]['CODIFICACION'] != 'Medio' && paramCiudadano == 1) {
+            grapN["nodes"][i]['SHAPE'] = 'N3';
+        }
+
+        if (grapN["nodes"][i]['CODIFICACION'] != 'Alto' && paramCiudadano == 0) {
+            grapN["nodes"][i]['SHAPE'] = 'N8';
+        } else if (grapN["nodes"][i]['CODIFICACION'] != 'Alto' && paramCiudadano == 1) {
+            grapN["nodes"][i]['SHAPE'] = 'N6';
+        }
+
+
+
+//Funcion calcular figura
+// A. Soy abogado
+// B. mi premisa
+// C. Acción
+
+
+        if (paramCiudadano == 0) {
+// 1. Cuantas muestra - Relaciones más complejas - nivel 1 de interacciones con respecto a los artefactos que tengan información relevantes
+// 2. Formas de lsa figuras
+
+        } else if (paramCiudadano == 1) {
+
+
+        }
+
+
+        /*paramTema
+         paramAccion*/
+
+    }
+
+
+// TIPO DE DATOS
+}
+
+var width = 1000;
+var height = 1000;
+
+
+
+var adjlist = [];
+
+function run() {
+
+
+    graph = grapN;
+
+
+
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+    var label = {
+        'nodes': [],
+        'links': []
+    };
+    graph.nodes.forEach(function (d, i) {
+        label.nodes.push({node: d});
+        label.nodes.push({node: d});
+        label.links.push({
+            source: i * 2,
+            target: i * 2 + 1
+        });
+    });
+
+
+
+    adjlist = [];
+
+    graph.links.forEach(function (d) {
+        adjlist[d.source.ID + "-" + d.target.ID] = true;
+        adjlist[d.target.ID + "-" + d.source.ID] = true;
+    });
+
+    function neigh(a, b) {
+        return a == b || adjlist[a + "-" + b];
+    }
+
+    var svg = d3.select("svg").attr("width", width).attr("height", height);
+
+    var container = svg.append("g");
+    svg.call(
+            d3.zoom()
+            .scaleExtent([.1, 4])
+            .on("zoom", function () {
+                container.attr("transform", d3.event.transform);
+            })
+            );
+
+    //update();
+
+
+
+    var labelLayout = d3.forceSimulation(label.nodes)
+            .force("charge", d3.forceManyBody().strength(-50))
+            .force("link", d3.forceLink(label.links).distance(0).strength(2));
+
+
+    var graphLayout = d3.forceSimulation(graph.nodes)
+            .force("charge", d3.forceManyBody().strength(-3000))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("x", d3.forceX(width / 2).strength(1))
+            .force("y", d3.forceY(height / 2).strength(1))
+            .force("link", d3.forceLink(graph.links).id(function (d) {
+                return d.ID;
+            }).distance(50).strength(1))
+            .on("tick", ticked);
+
+    var link = container.append("g").attr("class", "links")
+            .selectAll("line")
+            .data(graph.links)
+            .enter()
+            .append("line")
+            .attr("stroke", "#aaa")
+            .attr("stroke-width", "1px");
+
+    //var symbol = d3.symbol().size(1000).type(d3.symbolPentagon);
+
+    //var customSqr = d3.symbol().type(customSymbolSquare).size(500);
+
+    var node = container.append("g").attr("class", "nodes")
+            .selectAll("g")
+            .data(graph.nodes)
+            .enter()
+            .append("path")
+            .style("stroke", "#313131e8")
+            .style("fill", function (d) {
+                var color;
+                if (d.NATURALEZA == "Ley") {
+                    color = '#41b41f';
+                } else if (d.NATURALEZA == "Circular") {
+                    color = '#1f77b4';
+                } else {
+                    color = '#cacacae8';
+                }
+                return color;
+            })
+            .attr("d", function (d) {
+                var symbol;
+                if (d.SHAPE == "N3") {
+                    symbol = d3.symbol().size(d.SIZE).type(d3.symbolTriangleLeft);
+                } else if (d.SHAPE == "N4") {
+                    symbol = d3.symbol().size(d.SIZE).type(d3.symbolDiamondSquare);
+                } else if (d.SHAPE == "N5") {
+                    symbol = d3.symbol().size(d.SIZE).type(d3.symbolPentagon);
+                } else if (d.SHAPE == "N6") {
+                    symbol = d3.symbol().size(d.SIZE).type(d3.symbolHexagon);
+                } else if (d.SHAPE == "N8") {
+                    symbol = d3.symbol().size(d.SIZE).type(d3.symbolOctagon);
+                } else {
+                    symbol = d3.symbol().size(d.SIZE).type(d3.symbolTriangleLeft);
+                }
+
+                return symbol();
+            });
+    //node.on("mouseover", focus).on("mouseout", unfocus);
+
+    node.call(
+            d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended)
+            );
+    var labelNode = container.append("g").attr("class", "labelNodes")
+            .selectAll("text")
+            .data(label.nodes)
+            .enter()
+            .append("text")
+            .text(function (d, i) {
+                return i % 2 == 0 ? "" : d.node.NOMBRE;
+            })
+            .style("fill", "#555")
+            .style("font-family", "Arial")
+            .style("font-size", 12)
+            .style("pointer-events", "none"); // to prevent mouseover/drag capture
+
+    //node.on("mouseover", focus).on("mouseout", unfocus);
+    node.on("click", focus).on("mouseout", unfocus);
+
+    function ticked() {
+
+        node.call(updateNode);
+        link.call(updateLink);
+        labelLayout.alphaTarget(0.3).restart();
+        labelNode.each(function (d, i) {
+            if (i % 2 == 0) {
+                d.x = d.node.x;
+                d.y = d.node.y;
+            } else {
+                var b = this.getBBox();
+                var diffX = d.x - d.node.x;
+                var diffY = d.y - d.node.y;
+                var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+                var shiftX = b.width * (diffX - dist) / (dist * 2);
+                shiftX = Math.max(-b.width, Math.min(0, shiftX));
+                var shiftY = 16;
+                this.setAttribute("transform", "translate(" + shiftX + "," + shiftY + ")");
+            }
+        });
+        labelNode.call(updateNode);
+    }
+
+    function fixna(x) {
+        if (isFinite(x))
+            return x;
+        return 0;
+    }
+
+    //function focus(d) {}
+    function focus(d) {
+        //createLink("nodeA", "nodeA", "nodeA");
+        setVisor(d.ID);
+        var index = d3.select(d3.event.target).datum().index;
+        node.style("opacity", function (o) {
+            return neigh(index, o.index) ? 1 : 0.1;
+        });
+        labelNode.attr("display", function (o) {
+            return neigh(index, o.node.index) ? "block" : "none";
+        });
+        link.style("opacity", function (o) {
+            return o.source.index == index || o.target.index == index ? 1 : 0.1;
+        });
+    }
+
+
+    function unfocus() {
+        labelNode.attr("display", "block");
+        node.style("opacity", 1);
+        link.style("opacity", 1);
+    }
+
+    function updateLink(link) {
+        link.attr("x1", function (d) {
+            return fixna(d.source.x);
+        })
+                .attr("y1", function (d) {
+                    return fixna(d.source.y);
+                })
+                .attr("x2", function (d) {
+                    return fixna(d.target.x);
+                })
+                .attr("y2", function (d) {
+                    return fixna(d.target.y);
+                });
+
+
+    }
+
+
+
+    function updateNode(node) {
+        node.attr("transform", function (d) {
+            return "translate(" + fixna(d.x) + "," + fixna(d.y) + ")";
+        });
+    }
+
+    function dragstarted(d) {
+        d3.event.sourceEvent.stopPropagation();
+        if (!d3.event.active)
+            graphLayout.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function dragged(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+    }
+
+    function dragended(d) {
+        if (!d3.event.active)
+            graphLayout.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
+
+
+    function createLink(nodeA, nodeB, action) {
+
+        var linkTmp = {"source": findNodeById("ARTEFACT-" + getRndInteger(1, 3)), "target": findNodeById("ARTEFACT-" + getRndInteger(1, 3)), "ID": 1};
+
+        /*adjlist[linkTmp.source.ID + "-" + linkTmp.target.ID] = true;
+         adjlist[linkTmp.target.ID + "-" + linfkTmp.source.ID] = true;*/
+
+        graph["links"].push(linkTmp);
+
+
+        link.exit().remove();
+
+        link = link.data(graph.links)
+                .enter()
+                .append("line")
+                .attr("stroke", "#aaa")
+                .attr("stroke-width", "1px");
+        // .merge(link);
+    }
+
+    function findNodeById(idNode) {
+        for (var node in graph["nodes"]) {
+            var nodeTmp = graph["nodes"][node];
+            // console.log(nodeTmp);
+            if (nodeTmp["ID"] == idNode) {
+                return nodeTmp;
+            }
+        }
+    }
+
+
+
+}
+
+
+
+function deleteCard(node) {
+    for (var i = 0; i < cards.length; i++) {
+        if (node === cards[i]) {
+            cards.splice(i, 1);
+            return;
+        }
+    }
+    $('#card-' + node).remove();
+}
+
+
+// Demonstration only, use d3.symbolSquare if a square is needed
+var customSymbolSquare = {
+    draw: function (context, size) {
+        let s = Math.sqrt(size) / 2;
+        context.moveTo(s, s);
+        context.lineTo(s, -s);
+        context.lineTo(-s, -s);
+        context.lineTo(-s, s);
+        context.closePath();
+    }
+};
+function setVisor(id) {
+
+    var item;
+    console.log(id);
+    for (var node in graph["nodes"]) {
+        var nodeTmp = graph["nodes"][node];
+        //console.log(nodeTmp);
+        if (nodeTmp["ID"] == id) {
+            item = nodeTmp;
+        }
+    }
+
+
+    let date = Date.parse(item["DT_CREACION"]);
+    date = new Date(date);
+    //date = formatDate(date);
+    console.log(date);
+
+
+    $(".visor-panel").remove();
+    var divItem = "<div class='visor-panel'>" +
+            "<div class='poly-parent'><img class='poly' src='" + urlcanonical + "/img/" + item["SHAPE"] + ".png'></div>" +
+            "<p class='txt-normal-2'><span class='txt-normal-bold'>Nombre:</span> " + item["NOMBRE"] + "</p>" +
+            "<p class='txt-normal-2'><span class='txt-normal-bold'>Tipo:</span> " + item["NATURALEZA"] + "</p>" +
+            "<p class='txt-normal-2'><span class='txt-normal-bold'>Complejidad:<br></span> " + getComplejidad(item["SHAPE"])["descripcion"] + "</p>" +
+            "<p class='txt-normal-2'><span class='txt-normal-bold'>Fecha de creación:</span> " + formatDate(date) + "</p>" +
+            "<p class='txt-normal-2'><span class='txt-normal-bold'>¿Hace cuánto salió?:</span> " + calcDate(new Date(), date) + "</p>" +
+            "<p class='txt-normal-2'><span class='txt-normal-bold'>Descripción para el ciudadano de a pie:<br></span> " + item["DESCRIPCION"] + "</p>" +
+            "</div>";
+
+//TO-DO: HISTORIALK
+    $("#visor").append(divItem);
+}
+
+
+
+function getComplejidad(shape) {
+
+    for (var complejidadTMP in complejidad) {
+        if (complejidad[complejidadTMP]["shape"] == shape) {
+            return complejidad[complejidadTMP]
+        }
+    }
+}
+
+
+
+
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
+
+function formatDate(d) {
+    var
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+
+function calcDate(date1, date2) {
+    var diff = Math.floor(date1.getTime() - date2.getTime());
+    var day = 1000 * 60 * 60 * 24;
+
+    var days = Math.floor(diff / day);
+    var months = Math.floor(days / 31);
+    var years = Math.floor(months / 12);
+
+    var message = "";
+    message += months + " meses";
+
+    return message;
+}

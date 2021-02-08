@@ -63,8 +63,6 @@ function loadFont(name, family) {
 
 function startGallery() {
 
-
-
     setTimeout(function () {
 
         var typed = new Typed("#vecino", {
