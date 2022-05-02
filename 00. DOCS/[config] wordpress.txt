@@ -32,3 +32,15 @@ CREATE DATABASE wp_observatorio ;
 CREATE USER adm_observatorio@localhost;
 SET PASSWORD FOR adm_observatorio@localhost= PASSWORD("pass_adm_observatorio");
 GRANT ALL PRIVILEGES ON wpv.* TO adm_observatorio@localhost IDENTIFIED BY 'pass_adm_observatorio';
+
+ - - - - - - - - - - - - - -  - - - - - - -  - - - - - - -  - - - - - - -  - - - - - - -  - - - - - - - INI
+wp_elrelator
+
+adm_elrelator
+pass_adm_elrelator
+
+---- wordpress login
+apolan
+pass_adm_elrelator
+
+www.elrelator.co
