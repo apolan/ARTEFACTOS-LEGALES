@@ -9,14 +9,17 @@ CREATE USER adm_legal@localhost;
 SET PASSWORD FOR adm_legal@localhost= PASSWORD("pass_adm_legal");
 GRANT ALL PRIVILEGES ON wp_legal.* TO adm_legal@localhost IDENTIFIED BY 'pass_adm_legal';
 
+- - - - 20220502 - Despliegue Reunión Corte
+CREATE DATABASE wp_elrelator;
+CREATE USER adm_elrelator@localhost;
+SET PASSWORD FOR adm_elrelator@localhost= PASSWORD("pass_adm_elrelator");
+GRANT ALL PRIVILEGES ON wp_elrelator.* TO adm_elrelator@localhost IDENTIFIED BY 'pass_adm_elrelator';
+
 
 ---- wordpress login
 apolan
 	afpolani@gmail.com
 	DyoO@faNHRTOO64(cn
-	
-	X
-	x
 	
 
 
